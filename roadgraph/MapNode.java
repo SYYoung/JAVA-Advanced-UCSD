@@ -13,4 +13,8 @@ public class MapNode {
 		this.loc = new GeographicPoint(location.x, location.y);
 		this.edges = new LinkedList<MapEdge>();
 	}
+	
+	public List<MapEdge> getNeighbors() {
+		return this.edges;
+	}
 }

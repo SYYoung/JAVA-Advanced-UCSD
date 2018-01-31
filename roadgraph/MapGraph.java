@@ -8,14 +8,19 @@
 package roadgraph;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
+import java.util.Queue;
 import java.util.Set;
 import java.util.function.Consumer;
 
 import geography.GeographicPoint;
 import util.GraphLoader;
+import week3example.MazeNode;
 
 /**
  * @author UCSD MOOC development team and YOU
@@ -146,6 +151,61 @@ public class MapGraph {
 		
 		// Hook for visualization.  See writeup.
 		//nodeSearched.accept(next.getLocation());
+		// 1. inistialize: queue, visted hashset, parent hashMap
+		// 2. enqueue start onto the queue and add to visited
+		// 3. while queue is not empty
+		//		dequeue node curr from front of the queue
+		//		if curr == G then return parent map
+		//		for each of curr's neighbors, n, not in visited set:
+		//			add n to visited set
+		//			add curr as n's parent in parent map
+		//			enqueue n onto the queue
+		//	4. if we get here, then there is no path
+		MapNode startNode = nodes.get(start);
+		MapNode goalNode = nodes.get(goal);
+
+		if (startNode == null || goalNode == null) {
+			System.out.println("Start or goal node is null!  No path exists.");
+			return new LinkedList<GeographicPoint>();
+		}
+
+		HashSet<MapNode> visited = new HashSet<MapNode>();
+		Queue<MapNode> toExplore = new LinkedList<MapNode>();
+		HashMap<MapNode, MapNode> parentMap = new HashMap<MapNode, MapNode>();
+		toExplore.add(startNode);
+		boolean found = false;
+		while (!toExplore.isEmpty()) {
+			MapNode curr = toExplore.remove();
+			if (curr == goal) {
+				found = true;
+				break;
+			}
+			List<MapNode> neighbors = curr.getNeighbors();
+			ListIterator<MapNode> it = neighbors.listIterator(neighbors.size());
+			while (it.hasPrevious()) {
+				MapNode next = it.previous();
+				if (!visited.contains(next)) {
+					visited.add(next);
+					parentMap.put(next, curr);
+					toExplore.add(next);
+				}
+			}
+		}
+
+		if (!found) {
+			System.out.println("No path exists");
+			return new ArrayList<MapNode>();
+		}
+		// reconstruct the path
+		LinkedList<MapNode> path = new LinkedList<MapNode>();
+		MapNode curr = goal;
+		while (curr != start) {
+			path.addFirst(curr);
+			curr = parentMap.get(curr);
+		}
+		path.addFirst(start);
+		return path;
+		
 
 		return null;
 	}
