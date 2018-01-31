@@ -161,6 +161,7 @@ public class MapGraph {
 		//			add curr as n's parent in parent map
 		//			enqueue n onto the queue
 		//	4. if we get here, then there is no path
+		
 		MapNode startNode = nodes.get(start);
 		MapNode goalNode = nodes.get(goal);
 
@@ -174,40 +175,41 @@ public class MapGraph {
 		HashMap<MapNode, MapNode> parentMap = new HashMap<MapNode, MapNode>();
 		toExplore.add(startNode);
 		boolean found = false;
+		System.out.println("start is " + startNode.loc.getX() +"," + startNode.loc.getY());
+		System.out.println("goal is " + goal.getX() + "," + goal.getY());
+		
 		while (!toExplore.isEmpty()) {
 			MapNode curr = toExplore.remove();
-			if (curr == goalNode) {
+			System.out.println("curr location is : " + curr.loc.getX() +"," + curr.loc.getY());
+			if (curr.loc.equal(goal)) {
 				found = true;
 				break;
 			}
-			List<MapNode> neighbors = curr.getNeighbors();
-			ListIterator<MapNode> it = neighbors.listIterator(neighbors.size());
-			while (it.hasPrevious()) {
-				MapNode next = it.previous();
-				if (!visited.contains(next)) {
-					visited.add(next);
-					parentMap.put(next, curr);
-					toExplore.add(next);
+			List<MapEdge> neighbors = curr.getNeighbors();
+			for (MapEdge route: neighbors) {
+				MapNode nextNode = nodes.get(route);
+				if (!visited.contains(nextNode)) {
+					visited.add(nextNode);
+					parentMap.put(nextNode, curr);
+					toExplore.add(nextNode);
 				}
 			}
 		}
 
 		if (!found) {
 			System.out.println("No path exists");
-			return new ArrayList<MapNode>();
+			return new LinkedList<GeographicPoint>();
 		}
 		// reconstruct the path
-		LinkedList<MapNode> path = new LinkedList<MapNode>();
-		MapNode curr = goal;
-		while (curr != start) {
-			path.addFirst(curr);
+		LinkedList<GeographicPoint> path = new LinkedList<GeographicPoint>();
+		MapNode curr = goalNode;
+		while (!curr.loc.equal(start)) {
+			path.addFirst(curr.loc);
 			curr = parentMap.get(curr);
 		}
 		path.addFirst(start);
 		return path;
 		
-
-		return null;
 	}
 	
 
@@ -288,6 +290,15 @@ public class MapGraph {
 		// for testing purpose. print out the vertices and edges
 		// firstMap.printVertices();
 		firstMap.printGraph();
+		GeographicPoint testStart = new GeographicPoint(1.0, 1.0);
+		GeographicPoint testEnd = new GeographicPoint(8.0, -1.0);
+		
+		System.out.println("Test 1 using simpletest: BFS: from 1.0,1.0 to 8.0,-1.0.");
+		List<GeographicPoint> testroute = firstMap.bfs(testStart,testEnd);
+		// print out the route
+		for (GeographicPoint point: testroute) {
+			System.out.print("--->\t" + point.getX() +"," + point.getY());
+		}
 		
 		// You can use this method for testing.  
 		
