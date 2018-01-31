@@ -176,7 +176,7 @@ public class MapGraph {
 		boolean found = false;
 		while (!toExplore.isEmpty()) {
 			MapNode curr = toExplore.remove();
-			if (curr == goal) {
+			if (curr == goalNode) {
 				found = true;
 				break;
 			}
