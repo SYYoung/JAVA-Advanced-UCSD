@@ -181,8 +181,8 @@ public class MapGraph {
 		
 		while (!toExplore.isEmpty()) {
 			MapNode curr = toExplore.remove();
-			System.out.println("curr node is : " + curr);
-			System.out.println("curr location is : " + curr.loc.getX() +"," + curr.loc.getY());
+			//System.out.println("curr node is : " + curr);
+			//System.out.println("curr location is : " + curr.loc.getX() +"," + curr.loc.getY());
 			if (curr.loc.equal(goal)) {
 				found = true;
 				break;
