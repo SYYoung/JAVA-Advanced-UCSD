@@ -175,14 +175,9 @@ public class MapGraph {
 		HashMap<MapNode, MapNode> parentMap = new HashMap<MapNode, MapNode>();
 		toExplore.add(startNode);
 		boolean found = false;
-		System.out.println("start is " + startNode.loc.getX() +"," + startNode.loc.getY());
-		System.out.println("startNode is : " + startNode);
-		System.out.println("goal is " + goal.getX() + "," + goal.getY());
 		
 		while (!toExplore.isEmpty()) {
 			MapNode curr = toExplore.remove();
-			//System.out.println("curr node is : " + curr);
-			//System.out.println("curr location is : " + curr.loc.getX() +"," + curr.loc.getY());
 			if (curr.loc.equal(goal)) {
 				found = true;
 				break;
@@ -190,12 +185,10 @@ public class MapGraph {
 			List<MapEdge> neighbors = curr.getNeighbors();
 			for (MapEdge route: neighbors) {
 				MapNode nextNode = nodes.get(route.end);
-				System.out.println("nextNode location is : " + nextNode.loc.getX() + "," + nextNode.loc.getY());
 				if (!visited.contains(nextNode)) {
 					visited.add(nextNode);
 					parentMap.put(nextNode, curr);
 					toExplore.add(nextNode);
-					System.out.println("nextNode is put into queue.");
 				}
 			}
 		}
@@ -295,7 +288,9 @@ public class MapGraph {
 		// firstMap.printVertices();
 		firstMap.printGraph();
 		GeographicPoint testStart = new GeographicPoint(1.0, 1.0);
-		GeographicPoint testEnd = new GeographicPoint(8.0, -1.0);
+		GeographicPoint test1 = new GeographicPoint(8.0, -1.0);
+		GeographicPoint test2 = new GeographicPoint(5.0, 1.0);
+		GeographicPoint testEnd = test2;
 		
 		System.out.println("Test 1 using simpletest: BFS: from 1.0,1.0 to 8.0,-1.0.");
 		List<GeographicPoint> testroute = firstMap.bfs(testStart,testEnd);
