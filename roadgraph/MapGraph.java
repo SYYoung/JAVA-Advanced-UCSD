@@ -176,10 +176,12 @@ public class MapGraph {
 		toExplore.add(startNode);
 		boolean found = false;
 		System.out.println("start is " + startNode.loc.getX() +"," + startNode.loc.getY());
+		System.out.println("startNode is : " + startNode);
 		System.out.println("goal is " + goal.getX() + "," + goal.getY());
 		
 		while (!toExplore.isEmpty()) {
 			MapNode curr = toExplore.remove();
+			System.out.println("curr node is : " + curr);
 			System.out.println("curr location is : " + curr.loc.getX() +"," + curr.loc.getY());
 			if (curr.loc.equal(goal)) {
 				found = true;
@@ -187,11 +189,13 @@ public class MapGraph {
 			}
 			List<MapEdge> neighbors = curr.getNeighbors();
 			for (MapEdge route: neighbors) {
-				MapNode nextNode = nodes.get(route);
+				MapNode nextNode = nodes.get(route.end);
+				System.out.println("nextNode location is : " + nextNode.loc.getX() + "," + nextNode.loc.getY());
 				if (!visited.contains(nextNode)) {
 					visited.add(nextNode);
 					parentMap.put(nextNode, curr);
 					toExplore.add(nextNode);
+					System.out.println("nextNode is put into queue.");
 				}
 			}
 		}
