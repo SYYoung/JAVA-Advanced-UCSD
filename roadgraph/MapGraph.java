@@ -182,6 +182,7 @@ public class MapGraph {
 				found = true;
 				break;
 			}
+			nodeSearched.accept(curr.loc);
 			List<MapEdge> neighbors = curr.getNeighbors();
 			for (MapEdge route: neighbors) {
 				MapNode nextNode = nodes.get(route.end);
