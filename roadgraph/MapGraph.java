@@ -240,6 +240,20 @@ public class MapGraph {
 
 		// Hook for visualization.  See writeup.
 		//nodeSearched.accept(next.getLocation());
+		// 1. inistialize: queue, visted hashset, parent hashMap
+		//		distance to infinity
+		// 2. enqueue {start,0} onto the queue
+		// 3. while queue is not empty
+		//		dequeue node curr from front of the queue
+		//		if (curr is not visited)
+		//			add curr to visited set
+		//			if curr == G then return parent map
+		//			for each of curr's neighbors, n, not in visited set:
+		//				if (path thru curr to n is shorter)
+		//					update n's distance
+		//					add curr as n's parent in parent map
+		//					enqueue {n,distance} onto the queue
+		//	4. if we get here, then there is no path
 		
 		return null;
 	}
