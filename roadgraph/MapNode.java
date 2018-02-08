@@ -9,12 +9,14 @@ public class MapNode implements Comparable<MapNode> {
 	GeographicPoint	loc;
 	List<MapEdge> edges;
 	private double dist;
+	private double predictDist;
 	static final double DEFAULT_DIST = Double.POSITIVE_INFINITY;
 	
 	public MapNode(GeographicPoint location) {
 		this.loc = new GeographicPoint(location.x, location.y);
 		this.edges = new LinkedList<MapEdge>();
 		this.dist = DEFAULT_DIST;
+		this.predictDist = DEFAULT_DIST;
 	}
 	
 	public List<MapEdge> getNeighbors() {
@@ -32,6 +34,7 @@ public class MapNode implements Comparable<MapNode> {
 	
 	public void resetDistance() {
 		this.dist = DEFAULT_DIST;
+		this.predictDist = DEFAULT_DIST;
 	}
 	
 	public void setDistance(double distance) {
@@ -39,7 +42,8 @@ public class MapNode implements Comparable<MapNode> {
 	}
 	
 	public String toString() {
-		return ("location: " + this.loc + "\t, distance = " + this.dist);
+		return ("location: " + this.loc + "\t, distance = " + Math.round(this.dist) + "\t, pred dist = " +
+					Math.round(this.predictDist));
 				
 	}
 }

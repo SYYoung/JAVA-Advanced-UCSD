@@ -358,8 +358,64 @@ public class MapGraph {
 		
 		// Hook for visualization.  See writeup.
 		//nodeSearched.accept(next.getLocation());
+		MapNode startNode = nodes.get(start);
+		MapNode goalNode = nodes.get(goal);
+
+		if (startNode == null || goalNode == null) {
+			System.out.println("Start or goal node is null!  No path exists.");
+			return new LinkedList<GeographicPoint>();
+		}
+
+		HashSet<MapNode> visited = new HashSet<MapNode>();
+		PriorityQueue<MapNode> toExplore = new PriorityQueue<MapNode>();
+		HashMap<MapNode, MapNode> parentMap = new HashMap<MapNode, MapNode>();
+		for (GeographicPoint pt : getVertices()) {
+			MapNode vertex = nodes.get(pt);
+			vertex.resetDistance();
+		}
+		startNode.setDistance(0);
 		
-		return null;
+		toExplore.add(startNode);
+		boolean found = false;
+		
+		while (!toExplore.isEmpty()) {
+			MapNode curr = toExplore.remove();
+			if (!visited.contains(curr)) {
+				System.out.println("inside remove queue, node removed: " + curr);
+				visited.add(curr);
+				if (curr.loc.equal(goal)) {
+					found = true;
+					break;
+				}
+				nodeSearched.accept(curr.loc);
+				List<MapEdge> neighbors = curr.getNeighbors();
+				double currDistance = curr.getDistance();
+				for (MapEdge route: neighbors) {
+					MapNode nextNode = nodes.get(route.end);
+					double nodeDist = currDistance + route.getDistance();
+					if (nodeDist < nextNode.getDistance()) {
+						nextNode.setDistance(nodeDist);
+						parentMap.put(nextNode, curr);
+						toExplore.add(nextNode);
+					}
+				}
+			}
+		}
+
+		if (!found) {
+			System.out.println("No path exists");
+			return new LinkedList<GeographicPoint>();
+		}
+		// reconstruct the path
+		LinkedList<GeographicPoint> path = new LinkedList<GeographicPoint>();
+		MapNode curr = goalNode;
+		while (!curr.loc.equal(start)) {
+			path.addFirst(curr.loc);
+			curr = parentMap.get(curr);
+		}
+		path.addFirst(start);
+		return path;
+				
 	}
 
 	
