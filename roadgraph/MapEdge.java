@@ -7,7 +7,7 @@ public class MapEdge {
 	GeographicPoint	end;
 	String	streetName;
 	String	streetType;
-	double	distance;
+	private double	distance;
 	
 	public MapEdge(GeographicPoint from, GeographicPoint to, String roadName, String roadType, double len) {
 		this.start = new GeographicPoint(from.getX(), from.getY());
@@ -15,5 +15,9 @@ public class MapEdge {
 		this.streetName = new String(roadName);
 		this.streetType = new String(roadType);
 		this.distance = len;
+	}
+	
+	public double getDistance() {
+		return this.distance;
 	}
 }
