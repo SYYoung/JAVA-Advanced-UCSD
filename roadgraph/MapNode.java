@@ -37,4 +37,9 @@ public class MapNode implements Comparable<MapNode> {
 	public void setDistance(double distance) {
 		this.dist = distance;
 	}
+	
+	public String toString() {
+		return ("location: " + this.loc + "\t, distance = " + this.dist);
+				
+	}
 }

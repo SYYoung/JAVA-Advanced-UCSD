@@ -279,6 +279,7 @@ public class MapGraph {
 		while (!toExplore.isEmpty()) {
 			MapNode curr = toExplore.remove();
 			if (!visited.contains(curr)) {
+				System.out.println("inside remove queue, node removed: " + curr);
 				visited.add(curr);
 				if (curr.loc.equal(goal)) {
 					found = true;
@@ -313,6 +314,18 @@ public class MapGraph {
 		path.addFirst(start);
 		return path;
 		
+	}
+	
+	private List<GeographicPoint> buildPath(MapNode goal, MapNode start, HashMap<MapNode, MapNode> parentMap) {
+		LinkedList<GeographicPoint> path = new LinkedList<GeographicPoint>();
+		MapNode curr = goal;
+		while (!curr.loc.equal(start.loc)) {
+			path.addFirst(curr.loc);
+			curr = parentMap.get(curr);
+		}
+		path.addFirst(start.loc);
+		return path;
+				
 	}
 	
 
@@ -380,15 +393,19 @@ public class MapGraph {
 		 * the Week 3 End of Week Quiz, EVEN IF you score 100% on the 
 		 * programming assignment.
 		 */
-		/*
+		
 		MapGraph simpleTestMap = new MapGraph();
 		GraphLoader.loadRoadMap("data/testdata/simpletest.map", simpleTestMap);
 		
-		GeographicPoint testStart = new GeographicPoint(1.0, 1.0);
-		GeographicPoint testEnd = new GeographicPoint(8.0, -1.0);
+		GeographicPoint testStart11 = new GeographicPoint(1.0, 1.0);
+		GeographicPoint testEnd11 = new GeographicPoint(8.0, -1.0);
 		
 		System.out.println("Test 1 using simpletest: Dijkstra should be 9 and AStar should be 5");
-		List<GeographicPoint> testroute = simpleTestMap.dijkstra(testStart,testEnd);
+		List<GeographicPoint> testroute11 = simpleTestMap.dijkstra(testStart,testEnd);
+		for (GeographicPoint point: testroute11) {
+			System.out.print("--->\t" + point.getX() +"," + point.getY());
+		}
+		/*
 		List<GeographicPoint> testroute2 = simpleTestMap.aStarSearch(testStart,testEnd);
 		
 		
