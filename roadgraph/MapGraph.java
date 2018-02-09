@@ -277,11 +277,13 @@ public class MapGraph {
 		
 		toExplore.add(startNode);
 		boolean found = false;
+		int numVisited = 0;
 		
 		while (!toExplore.isEmpty()) {
 			MapNode curr = toExplore.remove();
+			numVisited += 1;
 			if (!visited.contains(curr)) {
-				System.out.println("Dij: inside remove queue, node removed: " + curr);
+				System.out.println("Dij visiting : " + curr);
 				visited.add(curr);
 				if (curr.loc.equal(goal)) {
 					found = true;
@@ -301,6 +303,7 @@ public class MapGraph {
 				}
 			}
 		}
+		System.out.println("Dijk: total number of nodes visited = " + numVisited);
 
 		if (!found) {
 			System.out.println("No path exists");
@@ -382,11 +385,14 @@ public class MapGraph {
 		
 		toExplore.add(startNode);
 		boolean found = false;
+		int numVisited = 0;
 		
 		while (!toExplore.isEmpty()) {
 			MapNode curr = toExplore.remove();
+			numVisited += 1;
 			if (!visited.contains(curr)) {
-				System.out.println("A Search: inside remove queue, node removed: " + curr);
+				System.out.println("A Search visiting :" + curr + "\t,Actual = "+ curr.getDistance()
+							+ "\t, Predicted = " + curr.getPredictDistance());
 				visited.add(curr);
 				if (curr.loc.equal(goal)) {
 					found = true;
@@ -410,6 +416,7 @@ public class MapGraph {
 				}
 			}
 		}
+		System.out.println("A search: total number of nodes visited= " + numVisited);
 
 		if (!found) {
 			System.out.println("No path exists");
@@ -450,6 +457,7 @@ public class MapGraph {
 		for (GeographicPoint point: testroute) {
 			System.out.print("BFS: --->\t" + point.getX() +"," + point.getY());
 		}
+		System.out.println();
 		
 		// You can use this method for testing.  
 		
@@ -470,12 +478,14 @@ public class MapGraph {
 		for (GeographicPoint point: testroute11) {
 			System.out.print("Dijk: --->\t" + point.getX() +"," + point.getY());
 		}
+		System.out.println();;
 		List<GeographicPoint> testroute12 = simpleTestMap.aStarSearch(testStart,testEnd);
 		for (GeographicPoint point: testroute12) {
 			System.out.print("A search: --->\t" + point.getX() +"," + point.getY());
 		}
+		System.out.println();
 		
-		/*
+		
 		MapGraph testMap = new MapGraph();
 		GraphLoader.loadRoadMap("data/maps/utc.map", testMap);
 		
@@ -483,17 +493,34 @@ public class MapGraph {
 		testStart = new GeographicPoint(32.869423, -117.220917);
 		testEnd = new GeographicPoint(32.869255, -117.216927);
 		System.out.println("Test 2 using utc: Dijkstra should be 13 and AStar should be 5");
-		testroute = testMap.dijkstra(testStart,testEnd);
-		testroute2 = testMap.aStarSearch(testStart,testEnd);
+		testroute11 = testMap.dijkstra(testStart,testEnd);
+		for (GeographicPoint point: testroute12) {
+			System.out.print("DIJK : --->\t" + point.getX() +"," + point.getY());
+		}
+		System.out.println();
+				
+		testroute12 = testMap.aStarSearch(testStart,testEnd);
+		for (GeographicPoint point: testroute12) {
+			System.out.print("A search: --->\t" + point.getX() +"," + point.getY());
+		}
+		System.out.println();
 		
 		
 		// A slightly more complex test using real data
 		testStart = new GeographicPoint(32.8674388, -117.2190213);
 		testEnd = new GeographicPoint(32.8697828, -117.2244506);
 		System.out.println("Test 3 using utc: Dijkstra should be 37 and AStar should be 10");
-		testroute = testMap.dijkstra(testStart,testEnd);
-		testroute2 = testMap.aStarSearch(testStart,testEnd);
-		*/
+		testroute11 = testMap.dijkstra(testStart,testEnd);
+		for (GeographicPoint point: testroute12) {
+			System.out.print("DIJK search: --->\t" + point.getX() +"," + point.getY());
+		}
+		System.out.println();
+		
+		testroute12 = testMap.aStarSearch(testStart,testEnd);
+		for (GeographicPoint point: testroute12) {
+			System.out.print("A search: --->\t" + point.getX() +"," + point.getY());
+		}
+		System.out.println();		
 		
 		
 		/* Use this code in Week 3 End of Week Quiz */

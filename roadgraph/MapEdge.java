@@ -20,4 +20,8 @@ public class MapEdge {
 	public double getDistance() {
 		return this.distance;
 	}
+	
+	public String toString() {
+		return ("St name: " + this.streetName);
+	}
 }

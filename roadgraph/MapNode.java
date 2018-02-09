@@ -70,6 +70,10 @@ public class MapNode implements Comparable<MapNode> {
 	}
 	
 	public String toString() {
+		return ("loc: " + this.loc);
+	}
+	
+	public String toStringOld() {
 		return ("location: " + this.loc + "\t, distance = " + Math.round(this.dist) + "\t, pred dist = " +
 					Math.round(this.predictDist));
 				
