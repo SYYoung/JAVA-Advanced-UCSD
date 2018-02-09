@@ -272,6 +272,8 @@ public class MapGraph {
 			vertex.resetDistance();
 		}
 		startNode.setDistance(0);
+		// set the compare type: actual distance
+		startNode.setCompareActual();
 		
 		toExplore.add(startNode);
 		boolean found = false;
@@ -279,7 +281,7 @@ public class MapGraph {
 		while (!toExplore.isEmpty()) {
 			MapNode curr = toExplore.remove();
 			if (!visited.contains(curr)) {
-				System.out.println("inside remove queue, node removed: " + curr);
+				System.out.println("Dij: inside remove queue, node removed: " + curr);
 				visited.add(curr);
 				if (curr.loc.equal(goal)) {
 					found = true;
@@ -372,8 +374,11 @@ public class MapGraph {
 		for (GeographicPoint pt : getVertices()) {
 			MapNode vertex = nodes.get(pt);
 			vertex.resetDistance();
+			vertex.setComparePredict();
 		}
 		startNode.setDistance(0);
+		startNode.setPredictDistance(0);
+		startNode.setComparePredict();
 		
 		toExplore.add(startNode);
 		boolean found = false;
@@ -381,7 +386,7 @@ public class MapGraph {
 		while (!toExplore.isEmpty()) {
 			MapNode curr = toExplore.remove();
 			if (!visited.contains(curr)) {
-				System.out.println("inside remove queue, node removed: " + curr);
+				System.out.println("A Search: inside remove queue, node removed: " + curr);
 				visited.add(curr);
 				if (curr.loc.equal(goal)) {
 					found = true;
@@ -392,9 +397,13 @@ public class MapGraph {
 				double currDistance = curr.getDistance();
 				for (MapEdge route: neighbors) {
 					MapNode nextNode = nodes.get(route.end);
-					double nodeDist = currDistance + route.getDistance();
-					if (nodeDist < nextNode.getDistance()) {
-						nextNode.setDistance(nodeDist);
+					double nodeSourceDist = currDistance + route.getDistance();
+					double nodeGoalDist = nextNode.loc.distance(goal);
+					// update the predicted distance of the node
+					nextNode.setPredictDistance(nextNode.getDistance()+nodeGoalDist);
+					if (nodeSourceDist + nodeGoalDist < nextNode.getPredictDistance()) {
+						nextNode.setDistance(nodeSourceDist);
+						nextNode.setPredictDistance(nodeSourceDist + nodeGoalDist);
 						parentMap.put(nextNode, curr);
 						toExplore.add(nextNode);
 					}
@@ -439,7 +448,7 @@ public class MapGraph {
 		List<GeographicPoint> testroute = firstMap.bfs(testStart,testEnd);
 		// print out the route
 		for (GeographicPoint point: testroute) {
-			System.out.print("--->\t" + point.getX() +"," + point.getY());
+			System.out.print("BFS: --->\t" + point.getX() +"," + point.getY());
 		}
 		
 		// You can use this method for testing.  
@@ -459,12 +468,14 @@ public class MapGraph {
 		System.out.println("Test 1 using simpletest: Dijkstra should be 9 and AStar should be 5");
 		List<GeographicPoint> testroute11 = simpleTestMap.dijkstra(testStart,testEnd);
 		for (GeographicPoint point: testroute11) {
-			System.out.print("--->\t" + point.getX() +"," + point.getY());
+			System.out.print("Dijk: --->\t" + point.getX() +"," + point.getY());
 		}
+		List<GeographicPoint> testroute12 = simpleTestMap.aStarSearch(testStart,testEnd);
+		for (GeographicPoint point: testroute12) {
+			System.out.print("A search: --->\t" + point.getX() +"," + point.getY());
+		}
+		
 		/*
-		List<GeographicPoint> testroute2 = simpleTestMap.aStarSearch(testStart,testEnd);
-		
-		
 		MapGraph testMap = new MapGraph();
 		GraphLoader.loadRoadMap("data/maps/utc.map", testMap);
 		
