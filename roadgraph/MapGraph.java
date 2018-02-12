@@ -524,7 +524,7 @@ public class MapGraph {
 		
 		
 		/* Use this code in Week 3 End of Week Quiz */
-		/*MapGraph theMap = new MapGraph();
+		MapGraph theMap = new MapGraph();
 		System.out.print("DONE. \nLoading the map...");
 		GraphLoader.loadRoadMap("data/maps/utc.map", theMap);
 		System.out.println("DONE.");
@@ -534,9 +534,18 @@ public class MapGraph {
 		
 		
 		List<GeographicPoint> route = theMap.dijkstra(start,end);
+		for (GeographicPoint point: route) {
+			System.out.print("Dijk : --->\t" + point.getX() +"," + point.getY());
+		}
+		System.out.println();		
+		
 		List<GeographicPoint> route2 = theMap.aStarSearch(start,end);
-
-		*/
+		for (GeographicPoint point: route2) {
+			System.out.print("A search: --->\t" + point.getX() +"," + point.getY());
+		}
+		System.out.println();		
+		
+		
 		
 	}
 
