@@ -13,3 +13,10 @@ git push -u origin master
 
 ... or import code from another repository
 
+git branch <bname>
+git checkout <bname>
+git checkout <master>
+git merge <bname>
+git branch -d <bname>
+git push
+
