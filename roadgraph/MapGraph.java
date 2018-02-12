@@ -116,11 +116,12 @@ public class MapGraph {
 			throw new IllegalArgumentException("the arguments are null or length is less than zero");
 		
 		// create a MapEdge
-		MapEdge newEdge = new MapEdge(from, to, roadName, roadType, length);
+		//MapEdge newEdge = new MapEdge(from, to, roadName, roadType, length);
 		// look for the "from node" to add the edge
 		MapNode whichNode = nodes.get(from);
+		whichNode.addEdge(from, to, roadName, roadType, length);
 		// add this new edge to that node
-		whichNode.edges.add(newEdge);
+		//whichNode.edges.add(newEdge);
 	}
 	
 

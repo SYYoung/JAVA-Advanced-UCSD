@@ -78,4 +78,12 @@ public class MapNode implements Comparable<MapNode> {
 					Math.round(this.predictDist));
 				
 	}
+	
+	public void addEdge(GeographicPoint from, GeographicPoint to, String roadName, String roadType, double dist) {
+		// create a MapEdge
+		MapEdge newEdge = new MapEdge(from, to, roadName, roadType, dist);
+		// look for the "from node" to add the edge
+		// add this new edge to that node
+		this.edges.add(newEdge);
+	}
 }
