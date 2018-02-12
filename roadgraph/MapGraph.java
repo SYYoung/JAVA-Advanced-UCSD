@@ -69,7 +69,7 @@ public class MapGraph {
 		int number = 0;
 		// for each node, get the number of edges
 		for (MapNode each: nodes.values()) {
-			number += each.edges.size();
+			number += each.getNumEdges();
 		}
 		return number;
 	}
@@ -115,13 +115,9 @@ public class MapGraph {
 		if ((from==null) || (to==null) || (roadName==null) || (roadType == null) || (length<0)) 
 			throw new IllegalArgumentException("the arguments are null or length is less than zero");
 		
-		// create a MapEdge
-		//MapEdge newEdge = new MapEdge(from, to, roadName, roadType, length);
 		// look for the "from node" to add the edge
 		MapNode whichNode = nodes.get(from);
 		whichNode.addEdge(from, to, roadName, roadType, length);
-		// add this new edge to that node
-		//whichNode.edges.add(newEdge);
 	}
 	
 
@@ -551,13 +547,8 @@ public class MapGraph {
 	}
 
 	private void printAllEdges(MapNode vertex) {
-		List<MapEdge> allEdge = vertex.edges;
+		vertex.printAllEdges();
 		
-		for (MapEdge route: allEdge) {
-			System.out.print("\t\t" + route.end.getX() + ",\t" + route.end.getY());
-			System.out.print(",\t" + route.streetName + ",\t" + route.streetType);
-			System.out.println(",\t" + Math.round(route.getDistance()));
-		}
 	}
 
 	private void printGraph() {
@@ -566,7 +557,7 @@ public class MapGraph {
 		System.out.println("Number of vertices is: " + this.getNumVertices());
 		System.out.println("Number of edges is: " + this.getNumEdges());
 		for (MapNode vertex: nodes.values()) {
-			System.out.println(vertex.loc.getX() + ",\t" + vertex.loc.getY() +":\t" );
+			System.out.println(vertex.getLocation());
 			printAllEdges(vertex);
 		}
 	}

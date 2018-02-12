@@ -86,4 +86,22 @@ public class MapNode implements Comparable<MapNode> {
 		// add this new edge to that node
 		this.edges.add(newEdge);
 	}
+	
+	public int getNumEdges() {
+		//the number of edges
+		return edges.size();
+	}
+	
+	public void printAllEdges() {
+		
+		for (MapEdge route: edges) {
+			System.out.print("\t\t" + route.end.getX() + ",\t" + route.end.getY());
+			System.out.print(",\t" + route.streetName + ",\t" + route.streetType);
+			System.out.println(",\t" + Math.round(route.getDistance()));
+		}
+	}
+	
+	public GeographicPoint getLocation() {
+		return this.loc;
+	}
 }
